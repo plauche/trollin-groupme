@@ -31,7 +31,7 @@ def select_member():
         urls.append(i["image_url"])
 
     y = randint(0,len(names)-1)
-    bot_name = names[y]
+    bot_name = names[y] + " "
     bot_url = urls[y]
 
 
