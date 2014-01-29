@@ -13,7 +13,7 @@ bot_id = None
 bot_url = None
 bot_group = None
 bot_msg = None
-access_token = "INSERT_TOKEN_HERE"
+access_token = None
 
 
 def select_member():
@@ -30,8 +30,9 @@ def select_member():
         names.append(i["nickname"])
         urls.append(i["image_url"])
 
-    bot_name = names[randint(0,len(names)-1)]
-    bot_url = urls[randint(0,len(names)-1)]
+    y = randint(0,len(names)-1)
+    bot_name = names[y]
+    bot_url = urls[y]
 
 
 def get_group_info():
@@ -78,15 +79,21 @@ args = parser.parse_args()
 bot_group = args.bot_group
 bot_msg = args.text
 
-if bot_group is not None:
-    
-    # If we supply text then randomly pick a member...
-    if bot_msg is not None:
-        select_member()
-    else:
-    # Otherwise randomly pick an old message + that member
-        get_message()
+with open('token.txt') as file:
+    access_token = file.readline()
 
-    generate_bot()
+if access_token is not None:
+    if bot_group is not None:
+        
+        # If we supply text then randomly pick a member...
+        if bot_msg is not None:
+            select_member()
+        else:
+        # Otherwise randomly pick an old message + that member
+            get_message()
+
+        generate_bot()
+    else:
+        print "Please supply group id"
 else:
-    print "Please supply group id"
+    print "Please supply access token in token.txt"

@@ -9,7 +9,7 @@ bot_text = None
 bot_id = None
 bot_url = None
 bot_group = None
-access_token = "INSERT_TOKEN_HERE"
+access_token = None
 
 
 def build_bot():
@@ -82,14 +82,20 @@ bot_name = args.bot_name
 bot_url = args.bot_url
 bot_group = args.bot_group
 
-if bot_text is not None:
-    if bot_id is not None:
-        run_bot()
-    else:
-        if bot_name is None or bot_url is None or bot_group is None:
-            print "Please supply bot name AND url AND group id"
-        else:
-            build_bot()
+with open('token.txt') as file:
+    access_token = file.readline()
+
+if access_token is not None:
+    if bot_text is not None:
+        if bot_id is not None:
             run_bot()
+        else:
+            if bot_name is None or bot_url is None or bot_group is None:
+                print "Please supply bot name AND url AND group id"
+            else:
+                build_bot()
+                run_bot()
+    else:
+        print "Error - please supply bot text"
 else:
-    print "Error - please supply bot text"
+    print "Please supply access_token in token.txt"
